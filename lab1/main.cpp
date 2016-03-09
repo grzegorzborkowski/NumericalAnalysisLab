@@ -2,7 +2,7 @@
 
 int main() {
     const unsigned matrixSize = 5;
-    vector<double> Vector;
+    vector<TYPE> Vector;
     generateRandomVector(matrixSize, Vector);
     printVector(Vector);
     return 0;
