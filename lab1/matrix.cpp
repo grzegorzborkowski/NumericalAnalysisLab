@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <vector>
 
-
 void generateRandomVector(unsigned vectorSize, vector<double> &Vector) {
     srand(time(NULL));
     for (unsigned i = 0; i < vectorSize; i++) {
