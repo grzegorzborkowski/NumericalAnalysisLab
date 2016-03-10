@@ -3,13 +3,16 @@ FLAGS = -Wall -pedantic
 DEPS = matrix.hpp
 OBJ = main.o matrix.o
 
-all: matrix.o clean
+all: compile clean
 
-%.o: %.cpp $(DEPS)
-	$(CXX) $(FLAGS) -c -o $@ $< -I.
+compile: $(OBJ)
+	$(CXX) $(FLAGS) -o main $(OBJ)
 
-matrix: $(OBJ)
-	$(CXX) $(FLAGS) -o $@ $^ -I.
+main.o: $(DEPS) main.cpp
+	$(CXX) $(FLAGS) -o main.o -c main.cpp
+
+matrix.o : $(DEPS) matrix.cpp
+	$(CXX) $(FLAGS) -o matrix.o -c matrix.cpp
 
 clean:
 	rm -f *.o

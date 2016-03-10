@@ -4,9 +4,9 @@
 #include <cstdlib>
 #include <vector>
 
-void generateRandomVector(unsigned vectorSize, vector<TYPE> &Vector) {
+void generateRandomVector(int vectorSize, vector<TYPE> &Vector) {
     srand(time(NULL));
-    for (unsigned i = 0; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; i++) {
         int randomNumber = rand() % 2;
         if (randomNumber == 0) randomNumber = -1;
         Vector.push_back(randomNumber);
@@ -14,38 +14,106 @@ void generateRandomVector(unsigned vectorSize, vector<TYPE> &Vector) {
 }
 
 void printVector(vector<TYPE> Vector) {
-    for (unsigned i = 0; i < Vector.size(); i++) {
-        cout << Vector[i] << " " << endl;
+    for (int i = 0; i < Vector.size(); i++) {
+        cout << Vector[i] << " ";
     }
 }
 
-void insertDataToMatrix(unsigned vectorSize, vector<vector<TYPE> > &Matrix) {
+void insertDataToMatrix(int vectorSize, vector <vector<TYPE> > &Matrix) {
     Matrix.resize(vectorSize);
-    for (unsigned i = 0; i < vectorSize; i++) {
+    for (int i = 0; i < vectorSize; i++) {
         Matrix[0].push_back(1);
     }
 
-    for (unsigned i = 1; i < vectorSize; i++) {
-        for (unsigned j = 0; j < vectorSize; j++) {
+    for (int i = 1; i < vectorSize; i++) {
+        for (int j = 0; j < vectorSize; j++) {
             Matrix[i].push_back(1 / TYPE(i + j));
         }
     }
 }
 
 void printMatrix(vector <vector<TYPE> > Matrix) {
-    for (unsigned i = 0; i < Matrix.size(); i++) {
-        for (unsigned j = 0; j < Matrix[i].size(); j++) {
+    for (int i = 0; i < Matrix.size(); i++) {
+        for (int j = 0; j < Matrix[i].size(); j++) {
             cout << Matrix[i][j] << " ";
         }
         cout << endl;
     }
 }
 
-void multiplyMatrixByVector(unsigned matrixSize, vector<vector<TYPE> >&Matrix, vector<TYPE> &Vector, vector<TYPE> &Output) {
+void multiplyMatrixByVector(int matrixSize, vector <vector<TYPE> > &Matrix, vector<TYPE> &Vector,
+                            vector<TYPE> &Output) {
     Output.resize(matrixSize);
-    for(unsigned i=0; i<matrixSize; i++) {
-        for(unsigned j=0; j<matrixSize; j++) {
-            Output[i] += (Matrix[i][j]*Vector[j]);
+    for (int i = 0; i < matrixSize; i++) {
+        for (int j = 0; j < matrixSize; j++) {
+            Output[i] += (Matrix[i][j] * Vector[j]);
         }
     }
+}
+
+// given A Matrix and B vector returns matrix AB
+vector <vector<TYPE> > createExtendedMatrix(int matrixSize, vector <vector<TYPE> > Matrix, vector<TYPE> Vector) {
+    vector <vector<TYPE> > ExtendedMatrix;
+    ExtendedMatrix = Matrix;
+    for (int i = 0; i < matrixSize; i++) {
+        ExtendedMatrix[i].push_back(Vector[i]);
+    }
+    return ExtendedMatrix;
+}
+
+// Matrix stands for A, Vector stands for B => Matrix A is (A|B) - extended matrix
+vector<TYPE> gaussianElimination(int matrixSize, vector<vector<TYPE> > Matrix, vector<TYPE> &Vector) {
+
+    vector <vector<TYPE> > A = createExtendedMatrix(matrixSize, Matrix, Vector);
+    int n = A.size();
+
+    // elimination
+    for (int i = 0; i < n; i++) {
+        // Search for maximum in this column
+        TYPE maxEl = abs(A[i][i]);
+        int maxRow = i;
+        for (int k = i + 1; k < n; k++) {
+            if (abs(A[k][i]) > maxEl) {
+                maxEl = abs(A[k][i]);
+                maxRow = k;
+            }
+        }
+
+        // Swap maximum row with current row (column by column)
+        for (int k = i; k < n + 1; k++) {
+            TYPE tmp = A[maxRow][k];
+            A[maxRow][k] = A[i][k];
+            A[i][k] = tmp;
+        }
+
+        // Make all rows below this one 0 in current column
+        for (int k = i + 1; k < n; k++) {
+            TYPE c = -A[k][i] / A[i][i];
+            for (int j = i; j < n + 1; j++) {
+                if (i == j) {
+                    A[k][j] = 0;
+                } else {
+                    A[k][j] += c * A[i][j];
+                }
+            }
+        }
+    }
+
+    // Solve equation Ax=b for an upper triangular matrix A
+    vector<TYPE> x(n);
+    for (int i = n - 1; i >= 0; i--) {
+        x[i] = A[i][n] / A[i][i];
+        for (int k = i - 1; k >= 0; k--) {
+            A[k][n] -= A[k][i] * x[i];
+        }
+    }
+    return x;
+}
+
+double calculateVectorNorm(vector<TYPE> Vector) {
+    double sum = 0;
+    for(int i=0; i<Vector.size(); i++) {
+        sum += Vector[i] * Vector[i];
+    }
+    return sqrt(sum);
 }

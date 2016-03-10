@@ -4,18 +4,22 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <cmath>
+#include <math.h>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 #define TYPE float // this constant indicates precision of calculation
+const double eps = 1e-12;
 
-void generateRandomVector(unsigned vectorSize, vector<TYPE> &Vector);
+void generateRandomVector(int vectorSize, vector<TYPE> &Vector);
 void printVector(vector<TYPE> Vector);
-void insertDataToMatrix(unsigned vectorSize, vector <vector<TYPE> > &Matrix);
+void insertDataToMatrix(int vectorSize, vector <vector<TYPE> > &Matrix);
 void printMatrix(vector <vector<TYPE> > Matrix);
-void multiplyMatrixByVector(unsigned matrixSize, vector <vector<TYPE> > &Matrix, vector<TYPE> &Vector,
+void multiplyMatrixByVector(int matrixSize, vector <vector<TYPE> > &Matrix, vector<TYPE> &Vector,
                             vector<TYPE> &Output);
 // Ax = B A: Matrix, x:Solution, B:Vector
-void gaussianElimination(vector <vector <TYPE> > Matrix, vector<TYPE> &Solution, vector<TYPE> &Vector);
-
+vector<TYPE> gaussianElimination(int matrixSize, vector<vector <TYPE> > A, vector<TYPE> &Vector);
+double calculateVectorNorm(vector<TYPE> Vector);
 #endif

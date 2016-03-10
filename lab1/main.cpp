@@ -1,9 +1,30 @@
 #include "matrix.hpp"
 
 int main() {
-    const unsigned matrixSize = 5;
+    int matrixSize = 100;
+    vector<vector<TYPE> > Matrix;
+    Matrix.resize(matrixSize);
+
+    vector<TYPE> X;
+    generateRandomVector(matrixSize, X);
+    printVector(X);
+    cout << endl;
+    cout << calculateVectorNorm(X) << endl;
+    cout << endl;
+    cout << endl;
+    insertDataToMatrix(matrixSize, Matrix);
+    printMatrix(Matrix);
+
+    cout << endl;
+    cout << endl;
+
     vector<TYPE> Vector;
-    generateRandomVector(matrixSize, Vector);
-    printVector(Vector);
+    multiplyMatrixByVector(matrixSize, Matrix, X, Vector);
+    vector<TYPE> solution = gaussianElimination(matrixSize, Matrix, Vector);
+
+    printVector(solution);
+    cout << endl;
+    cout << calculateVectorNorm(solution) << endl;
+
     return 0;
 }
