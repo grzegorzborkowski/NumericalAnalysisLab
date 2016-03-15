@@ -1,8 +1,4 @@
 #include "matrix.hpp"
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <vector>
 
 void generateRandomVector(int vectorSize, vector<TYPE> &Vector) {
     srand(time(NULL));
@@ -14,9 +10,13 @@ void generateRandomVector(int vectorSize, vector<TYPE> &Vector) {
 }
 
 void printVector(vector<TYPE> Vector) {
-    for (int i = 0; i < Vector.size(); i++) {
+    for (unsigned i = 0; i < Vector.size(); i++) {
         cout << Vector[i] << " ";
     }
+}
+
+void printSizeOfVector(vector<TYPE> Vector) {
+    cout << Vector.size() << endl;
 }
 
 void insertDataToMatrix(int vectorSize, vector <vector<TYPE> > &Matrix) {
@@ -33,8 +33,8 @@ void insertDataToMatrix(int vectorSize, vector <vector<TYPE> > &Matrix) {
 }
 
 void printMatrix(vector <vector<TYPE> > Matrix) {
-    for (int i = 0; i < Matrix.size(); i++) {
-        for (int j = 0; j < Matrix[i].size(); j++) {
+    for (unsigned i = 0; i < Matrix.size(); i++) {
+        for (unsigned j = 0; j < Matrix[i].size(); j++) {
             cout << Matrix[i][j] << " ";
         }
         cout << endl;
@@ -110,10 +110,11 @@ vector<TYPE> gaussianElimination(int matrixSize, vector<vector<TYPE> > Matrix, v
     return x;
 }
 
-double calculateVectorNorm(vector<TYPE> Vector) {
+void calculateNormOfDifference(vector<TYPE> firstVector, vector<TYPE> secondVector) {
     double sum = 0;
-    for(int i=0; i<Vector.size(); i++) {
-        sum += Vector[i] * Vector[i];
+    for(unsigned i=0; i<firstVector.size(); i++) {
+        double tmp =  firstVector[i] - secondVector[i];
+        sum += tmp*tmp;
     }
-    return sqrt(sum);
+    cout << sqrt(sum) << endl;
 }

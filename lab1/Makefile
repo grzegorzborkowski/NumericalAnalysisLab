@@ -1,5 +1,5 @@
 CXX = g++
-FLAGS = -Wall -pedantic
+FLAGS = -Wall -pedantic -std=c++11
 DEPS = matrix.hpp
 OBJ = main.o matrix.o
 
