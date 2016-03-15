@@ -1,9 +1,7 @@
 #include "matrix.hpp"
 
-void generate_zad1_tests() {
+void generate_zad1_tests(int i) {
     int matrixSizes[20] = {1,2,4,6,8,10,12,14,16,18,20,25,30,40,50,75,100,120,150,200};
-    int i=17;
-        string fileName = "tests_zad1/test" + to_string(i) + "double.out";
         cout << fileName << endl;
         int matrixSize = matrixSizes[i];
         vector<vector<TYPE> > Matrix;
@@ -34,7 +32,8 @@ void generate_zad1_tests() {
 
 
 
-int main() {
-    generate_zad1_tests();
+int main(int argc, char **argv) {
+    int i = stoi(argv[1]);
+    generate_zad1_tests(i);
     return 0;
 }
