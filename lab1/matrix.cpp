@@ -32,6 +32,36 @@ void insertDataToMatrix(int vectorSize, vector <vector<TYPE> > &Matrix) {
     }
 }
 
+void insertDataToMatrixZad2(int vectorSize, vector<vector<TYPE> > &Matrix) {
+    Matrix.resize(vectorSize);
+    for(int i=0; i<vectorSize; i++) {
+        Matrix[i].resize(vectorSize);
+    }
+
+    for(int i=0; i<vectorSize; i++) {
+        for(int j=0; j<vectorSize; j++) {
+            if(j>=i) Matrix[i][j] = TYPE(2*(i+1))/TYPE(j+1);
+            if(j<i) Matrix[i][j] = Matrix[j][i];
+        }
+    }
+}
+
+void insertDataToMatrixZad3(int vectorSize, vector<vector<TYPE> > &Matrix) {
+    Matrix.resize(vectorSize);
+    for(int i=0; i<vectorSize; i++) {
+        Matrix[i].resize(vectorSize);
+    }
+
+    for(int i=0; i<vectorSize; i++) {
+        for(int j=0; j<vectorSize; j++) {
+            if(i==i) Matrix[i][i] = 6;
+            if(j==i+1) Matrix[i][j] = 1/ TYPE(1+m);
+            if(j==i-1) Matrix[i][j] = 6 / TYPE(2+i);
+            if(i-1>j && j>i+1) Matrix[i][j] = 0;
+        }
+    }
+}
+
 void printMatrix(vector <vector<TYPE> > Matrix) {
     for (unsigned i = 0; i < Matrix.size(); i++) {
         for (unsigned j = 0; j < Matrix[i].size(); j++) {
@@ -117,4 +147,17 @@ void calculateNormOfDifference(vector<TYPE> firstVector, vector<TYPE> secondVect
         sum += tmp*tmp;
     }
     cout << sqrt(sum) << endl;
+}
+
+void tridiagonalThomas(int vectorSize, vector<TYPE> A, vector<TYPE> B, vector<TYPE>C, vector<TYPE>&Soltuion, vector<TYPE>D) {
+    vector<TYPE> C1;
+    C1.resize(vectorSize);
+    C1.push_back(C[0] / B[0]);
+    for(int i=1; i<vectorSize; i++) {
+        C1.push_back(C[i]/(B[i]-A[i]*C1[i-1]));
+    }
+    vector<TYPE> D1;
+    D1.resize(vectorSize);
+    D1.push_back(D[0]/B[0]);
+
 }

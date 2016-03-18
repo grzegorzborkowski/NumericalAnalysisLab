@@ -3,7 +3,7 @@ FLAGS = -Wall -pedantic -std=c++11
 DEPS = matrix.hpp
 OBJ = main.o matrix.o
 
-all: compile generatetestsfordouble clean
+all: compile clean
 
 compile: $(OBJ)
 	$(CXX) $(FLAGS) -o main $(OBJ)
@@ -15,7 +15,7 @@ matrix.o : $(DEPS) matrix.cpp
 	$(CXX) $(FLAGS) -o matrix.o -c matrix.cpp
 
 generatetestsfordouble: main.o matrix.o compile
-	bash scriptdouble.sh
+	bash scriptzad1.sh
 
 
 clean:
