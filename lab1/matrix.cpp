@@ -45,7 +45,10 @@ void insertDataToMatrixZad2(int vectorSize, vector<vector<TYPE> > &Matrix) {
         }
     }
 }
+/*
 
+Zadanie 3: b) k=6, m=1
+*/
 void insertDataToMatrixZad3(int vectorSize, vector<vector<TYPE> > &Matrix) {
     Matrix.resize(vectorSize);
     for(int i=0; i<vectorSize; i++) {
@@ -54,9 +57,9 @@ void insertDataToMatrixZad3(int vectorSize, vector<vector<TYPE> > &Matrix) {
 
     for(int i=0; i<vectorSize; i++) {
         for(int j=0; j<vectorSize; j++) {
-            if(i==i) Matrix[i][i] = 6;
-            if(j==i+1) Matrix[i][j] = 1/ TYPE(1+m);
-            if(j==i-1) Matrix[i][j] = 6 / TYPE(2+i);
+            if(i==i) Matrix[i][i] = -i - 6;
+            if(j==i+1) Matrix[i][j] = i;
+            if(j==i-1) Matrix[i][j] = 1 / TYPE(i+1);
             if(i-1>j && j>i+1) Matrix[i][j] = 0;
         }
     }
@@ -159,5 +162,8 @@ void tridiagonalThomas(int vectorSize, vector<TYPE> A, vector<TYPE> B, vector<TY
     vector<TYPE> D1;
     D1.resize(vectorSize);
     D1.push_back(D[0]/B[0]);
+    for(int i=1; i<vectorSize; i++) {
+        D1.push_back((D[i] - A[i]*D1[i-1])/(B[i]-A[i]*C1[i]));
+    }
 
 }
