@@ -20,7 +20,7 @@ Zadanie 3: b) k=6, m=1
 
 using namespace std;
 
-#define TYPE float // this constant indicates precision of calculation
+#define TYPE double // this constant indicates precision of calculation
 const double eps = 1e-12;
 
 void generateRandomVector(int vectorSize, vector<TYPE> &Vector);
