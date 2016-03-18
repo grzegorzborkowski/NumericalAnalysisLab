@@ -65,6 +65,15 @@ void insertDataToMatrixZad3(int vectorSize, vector<vector<TYPE> > &Matrix) {
     }
 }
 
+void insertDataToMatrixZadThomas(int vectorSize, vector<TYPE> &A,
+    vector<TYPE> &B, vector<TYPE> &C)  {
+      for(int i=0; i<vectorSize; i++) {
+        A.push_back(1 / TYPE(i+1));
+        B.push_back(-i-6);
+        C.push_back(i);
+      }
+}
+
 void printMatrix(vector <vector<TYPE> > Matrix) {
     for (unsigned i = 0; i < Matrix.size(); i++) {
         for (unsigned j = 0; j < Matrix[i].size(); j++) {
@@ -152,7 +161,7 @@ void calculateNormOfDifference(vector<TYPE> firstVector, vector<TYPE> secondVect
     cout << sqrt(sum) << endl;
 }
 
-void tridiagonalThomas(int vectorSize, vector<TYPE> A, vector<TYPE> B, vector<TYPE>C, vector<TYPE>&Soltuion, vector<TYPE>D) {
+void tridiagonalThomas(int vectorSize, vector<TYPE> A, vector<TYPE> B, vector<TYPE>C, vector<TYPE>&Solution, vector<TYPE>D) {
     vector<TYPE> C1;
     C1.resize(vectorSize);
     C1.push_back(C[0] / B[0]);
@@ -165,5 +174,9 @@ void tridiagonalThomas(int vectorSize, vector<TYPE> A, vector<TYPE> B, vector<TY
     for(int i=1; i<vectorSize; i++) {
         D1.push_back((D[i] - A[i]*D1[i-1])/(B[i]-A[i]*C1[i]));
     }
-
+    Solution.resize(vectorSize);
+    Solution[vectorSize-1] = D1[vectorSize-1];
+    for(int i=vectorSize-2; i>=0; i--) {
+       Solution[i] = (D1[i] - C1[i]*Solution[i+1]);
+    }
 }
