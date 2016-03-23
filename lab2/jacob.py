@@ -1,5 +1,3 @@
-# Uklad a) k=10, m=1 <- zad indywidualne
-
 from numpy import *
 
 def jacobi(A, b, initial_guess=None, stopcriterium=None, whichstopcriterium=None):
