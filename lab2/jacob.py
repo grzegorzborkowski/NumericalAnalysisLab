@@ -1,16 +1,17 @@
 # Uklad a) k=10, m=1 <- zad indywidualne
 
-from pprint import pprint
-from numpy import array, ones, zeros, diag, diagflat, dot, linalg, fromfunction, random
 from numpy import *
 
-
-def jacobi(A, b, N=25, initial_guess=None, stopcriterium=None):
+def jacobi(A, b, initial_guess=None, stopcriterium=None, whichstopcriterium=None):
     if stopcriterium is None:
         stopcriterium = 0.00001
 
     if initial_guess is None:
         initial_guess = zeros(len(A[0]))
+
+    if whichstopcriterium is None:
+        whichstopcriterium = 1
+
 
     D = diag(A)
     R = A - diagflat(D)
@@ -23,9 +24,9 @@ def jacobi(A, b, N=25, initial_guess=None, stopcriterium=None):
         iteration += 1
         y = x
         x = (b - dot(R,x)) / D
-        #if stopcriterium and linalg.norm(y - x) < stopcriterium:
-        #    break
-        if stopcriterium and linalg.norm(dot(A, x)-b) < stopcriterium:
+        if stopcriterium and whichstopcriterium==1 and linalg.norm(y - x) < stopcriterium:
+           break
+        if stopcriterium and whichstopcriterium==2 and linalg.norm(dot(A, x)-b) < stopcriterium:
             break
 
     return x, iteration
@@ -53,24 +54,10 @@ def calculate_output_vector(A, x):
 def calculate_solution_norm(x, sol):
     return linalg.norm(x-sol)
 
-#A = fill_matrix(100, k=10, m=1)
-#guess = generate_x_vector(A)
-#B = calculate_output_vector(A, guess)
-
-#print(A)
-#print(guess)
-#print(B)
-#sol, iteration = jacobi(A, B, 25, None, 0.00001)
-#print(sol)
-#norm = calculate_solution_norm(guess, sol)
-
-for i in range(2, 2000, 10):
+for i in range(2, 100, 10):
     A = fill_matrix(i, k=10, m=1)
     guess = generate_x_vector(A)
     B = calculate_output_vector(A, guess)
-    sol, iteration = jacobi(A, B, 25, None, 0.00001)
+    sol, iteration = jacobi(A, B, initial_guess=None, stopcriterium=0.00000001, whichstopcriterium=2)
     norm = calculate_solution_norm(guess, sol)
-    print(len(A[0]))
-    print(norm)
-    print(iteration)
-    print("-----------")
+    print(len(A[0]), norm, iteration)
