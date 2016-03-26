@@ -1,4 +1,6 @@
-from numpy import *
+from numpy import zeros, diag, diagflat, dot, fromfunction, random, linalg
+import scipy.linalg
+
 
 def jacobi(A, b, initial_guess=None, stopcriterium=None, whichstopcriterium=None):
     if stopcriterium is None:
@@ -9,7 +11,6 @@ def jacobi(A, b, initial_guess=None, stopcriterium=None, whichstopcriterium=None
 
     if whichstopcriterium is None:
         whichstopcriterium = 1
-
 
     D = diag(A)
     R = A - diagflat(D)
@@ -23,19 +24,25 @@ def jacobi(A, b, initial_guess=None, stopcriterium=None, whichstopcriterium=None
         y = x
         x = (b - dot(R,x)) / D
         if stopcriterium and whichstopcriterium==1 and linalg.norm(y - x) < stopcriterium:
-           break
+            break
         if stopcriterium and whichstopcriterium==2 and linalg.norm(dot(A, x)-b) < stopcriterium:
             break
 
     return x, iteration
 
+def oblicz_promien_spektralny(A):
+    D = diag(A)
+    R = A - diagflat(D)
+    macierz_iteracji = R/D
+    eigarray = scipy.linalg.eigvals(macierz_iteracji)
+    promien_spektralny_value = max(abs(eigarray))
+    return promien_spektralny_value
 
 def fill_matrix(N, k, m):
     A = fromfunction(lambda i, j: m / (N- i- j + 0.5), (N,N))
     for h in range(N):
         A[h][h] = k
     return A
-
 
 def generate_x_vector(A):
     x = random.random_integers(-1, 1, len(A[0]))
@@ -44,18 +51,8 @@ def generate_x_vector(A):
             x[i] = -1
     return x
 
-
 def calculate_output_vector(A, x):
     return dot(A, x)
 
-
 def calculate_solution_norm(x, sol):
     return linalg.norm(x-sol)
-
-for i in range(2, 100, 10):
-    A = fill_matrix(i, k=10, m=1)
-    guess = generate_x_vector(A)
-    B = calculate_output_vector(A, guess)
-    sol, iteration = jacobi(A, B, initial_guess=None, stopcriterium=0.00000001, whichstopcriterium=2)
-    norm = calculate_solution_norm(guess, sol)
-    print(len(A[0]), norm, iteration)
