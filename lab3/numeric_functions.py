@@ -40,10 +40,35 @@ def newton(x1, fun, stop_criterion=None, stop_value=None):
     return iteration
 
 
-def euler(a, b, fun, stop_criterium=None, stop_value=None):
-    if stop_criterium is None:
-        stop_criterium = 1
+def euler(a, b, fun, stop_criterion=None, stop_value=None):
+    if stop_criterion is None:
+        stop_criterion = 1
 
     if stop_value is None:
         stop_value = 0.00001
+
+    iteration = 0
+    x0 = a
+    x1 = b
+    while True:
+        fun_dif = fun(x1) - fun(x0)
+        if fun_dif == 0:
+            return -1
+        x2 = x1 - fun(x1)*(x1-x0)/fun_dif
+
+        if stop_criterion == 1:
+            value = first_criterion(x1, x2, stop_value)
+            if value:
+                break
+
+        if stop_criterion == 2:
+            value = second_criterion(x2, fun, stop_value)
+            if value:
+                break
+
+        x0 = x1
+        x1 = x2
+        iteration += 1
+
+    return iteration
 
