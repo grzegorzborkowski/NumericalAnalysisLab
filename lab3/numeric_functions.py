@@ -21,11 +21,12 @@ def newton(x1, fun, stop_criterion=None, stop_value=None):
         stop_criterion = 1
 
     if stop_value is None:
-        stop_value = 1
+        stop_value = 0.00001
 
     iteration = 0
+    df = derivative(fun)
     while True:
-        x2 = x1 - fun(x1)/derivative(fun)
+        x2 = x1 - fun(x1)/df(x1, 0.00001)
         if stop_criterion == 1:
             value = first_criterion(x1, x2, stop_value)
             if value:
