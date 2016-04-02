@@ -1,13 +1,12 @@
+from lab3 import functions
+
+
 def first_criterion(x1, x2, stop_value):
-    if abs(x1-x2) < stop_value:
-        return True
-    return False
+    return abs(x1-x2) < stop_value
 
 
 def second_criterion(x, fun, n, m, stop_value):
-    if abs(fun(x, n, m)) < stop_value:
-        return True
-    return False
+    return abs(fun(x, n, m)) < stop_value
 
 
 def derivative(f, n, m):
@@ -24,15 +23,16 @@ def newton(x1, fun, n=None, m=None, stop_criterion=None, stop_value=None):
         stop_value = 0.00001
 
     if n is None:
-        n = 5
+        n = 10
 
     if m is None:
-        m = 5
+        m = 50
 
     iteration = 0
-    df = derivative(fun, n, m)
+    df = functions.derivative_function
+
     while True:
-        x2 = x1 - fun(x1, n, m) / df(x1, 0.00001)
+        x2 = x1 - fun(x1, n, m) / df(x1)
         if stop_criterion == 1:
             value = first_criterion(x1, x2, stop_value)
             if value:
@@ -44,7 +44,7 @@ def newton(x1, fun, n=None, m=None, stop_criterion=None, stop_value=None):
         x1 = x2
         iteration += 1
 
-    return iteration
+    return iteration, x1
 
 
 def euler(a, b, fun, n=None, m=None, stop_criterion=None, stop_value=None):
@@ -55,10 +55,10 @@ def euler(a, b, fun, n=None, m=None, stop_criterion=None, stop_value=None):
         stop_value = 0.00001
 
     if n is None:
-        n = 5
+        n = 10
 
     if m is None:
-        m = 5
+        m = 50
 
     iteration = 0
     x0 = a
@@ -83,5 +83,5 @@ def euler(a, b, fun, n=None, m=None, stop_criterion=None, stop_value=None):
         x1 = x2
         iteration += 1
 
-    return iteration
+    return iteration, x1
 
